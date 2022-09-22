@@ -1,6 +1,7 @@
-package FormacionBackend3.SubirBajarFicheros.controller;
+package FormacionBackend3.SubirBajarFicheros.infrastructure.controller;
 
-import FormacionBackend3.SubirBajarFicheros.service.UploadFileService;
+import FormacionBackend3.SubirBajarFicheros.application.UploadFileServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +12,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 
+
 @Controller
 public class UploadFileController {
 
 
     @Autowired
-    UploadFileService uploadFileService;
+    UploadFileServiceImpl uploadFileService;
 
 
 
@@ -28,15 +30,15 @@ public class UploadFileController {
 
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Object> uploadFile(@RequestParam("file") MultipartFile file) {
 
-        if(file.isEmpty()) {
-            return new ResponseEntity<Object>("Seleccionar un archivo", HttpStatus.OK);
+        if (file.isEmpty()) {
+            return new ResponseEntity<Object>("Debes seleccionar un archivo", HttpStatus.OK);
         }
+
         try {
             uploadFileService.saveFile(file);
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
